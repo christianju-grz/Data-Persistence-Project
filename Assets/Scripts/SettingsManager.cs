@@ -8,6 +8,7 @@ public class SettingsManager : MonoBehaviour
     public static SettingsManager Instance;
     public string playerName;
     public int lastScore;
+    public float difficulty;
 
     private void Awake()
     {
@@ -20,6 +21,13 @@ public class SettingsManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        //default on load
+        difficulty = 2.0f;
     }
- 
+
+    private void Start()
+    {
+        
+    }
+
 }

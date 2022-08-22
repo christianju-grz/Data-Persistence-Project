@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuUIHandler : MonoBehaviour
 {
-    //public TextMeshProUGUI register_username;
-    // Start is called before the first frame update
+    public Color buttonActiveColor;
+    public Color buttonDefaultColor;
+    public Button DefaultButton;
+    public Button TurboButton;
     void Start()
     {
         CheckForOldEntry();
+
     }
 
     // Update is called once per frame
@@ -29,6 +33,22 @@ public class MenuUIHandler : MonoBehaviour
     {
         SettingsManager.Instance.playerName = GameObject.Find("Name Entry").GetComponent<TMP_InputField>().text;
         
+    }
+
+
+    public void ChangeButtonColor(Button buttonPressed)
+    {
+        ColorBlock cb = buttonPressed.colors;
+        cb.selectedColor = buttonActiveColor;
+       
+        cb.pressedColor = buttonActiveColor;
+        buttonPressed.colors = cb;
+  
+
+    }
+    public void SetGameMode(float difficultyValue)
+    {
+        SettingsManager.Instance.difficulty = difficultyValue;
     }
 
    public void CheckForOldEntry()

@@ -15,6 +15,7 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public Text BestScore;
+    private float gameModeSetting;
 
     public GameObject GameOverText;
     
@@ -23,7 +24,11 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-
+    private void Awake()
+    {
+        gameModeSetting = SettingsManager.Instance.difficulty;
+        Debug.Log(gameModeSetting);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -54,11 +59,11 @@ public class MainManager : MonoBehaviour
             {
                 m_Started = true;
                 float randomDirection = Random.Range(-1.0f, 1.0f);
-                Vector3 forceDir = new Vector3(randomDirection, 1, 0);
+                Vector3 forceDir = new Vector3(randomDirection, 1.0f, 0);
                 forceDir.Normalize();
 
                 Ball.transform.SetParent(null);
-                Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+                Ball.AddForce(forceDir * gameModeSetting, ForceMode.VelocityChange);
             }
         }
         else if (m_GameOver)

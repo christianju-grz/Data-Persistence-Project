@@ -13,7 +13,14 @@ public class MainUIHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerName.text = SettingsManager.Instance.playerName;
+        if(SettingsManager.Instance.playerName != "")
+        {
+            PlayerName.text = SettingsManager.Instance.playerName;
+        }else
+        {
+            PlayerName.text = "Anonymous";
+        }
+        
         
        
     }
