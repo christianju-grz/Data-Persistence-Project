@@ -8,11 +8,13 @@ public class MainUIHandler : MonoBehaviour
 {
 
     public Text PlayerName;
+    public Text BestScore;
     private string playerName;
     // Start is called before the first frame update
     void Start()
     {
         PlayerName.text = SettingsManager.Instance.playerName;
+        
        
     }
 
