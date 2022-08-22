@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+
+
 public class MainManager : MonoBehaviour
 {
     public Brick BrickPrefab;
@@ -11,6 +14,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -18,10 +22,11 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
+        
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -36,6 +41,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+
     }
 
     private void Update()
@@ -70,7 +77,35 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        SettingsManager.Instance.lastScore = m_Points;
         m_GameOver = true;
         GameOverText.SetActive(true);
+        SaveHighScoreFile();
+      
+    }
+
+    private void SaveHighScoreFile()
+    {
+        HighScore lastScoreAchieved = new HighScore();
+        lastScoreAchieved.score = SettingsManager.Instance.lastScore;
+        lastScoreAchieved.playerName = SettingsManager.Instance.playerName;
+        string json = SaveToString();
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/HighScoreData.json", json);
+    }
+
+    [System.Serializable]
+    public class HighScore
+    {
+        public int score;
+        public string playerName;
+    }
+
+    public string SaveToString()
+    {
+        return JsonUtility.ToJson(this);
+    }
+    public static HighScore CreateFromJSON(string jsonString)
+    {
+        return JsonUtility.FromJson<HighScore>(jsonString);
     }
 }
